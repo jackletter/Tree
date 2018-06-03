@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>基本实例</title>
+    <link href="../dist/css/tree.css" rel="stylesheet" />
+    <script type="text/javascript" src="../dist/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../dist/js/tree.js"></script>
+</head>
+<body>
+    <div id="tree" style="margin-top:50px;"></div>
+    <script type="text/javascript">
+        var tree;
+        $(function () {
+            tree = new Tree("tree", {});
+            tree.init(data);
+            setTimeout(function () { console.log(tree.getCheck()) }, 2000);
+        });
+        var data = {
+            Text: "某公司",
+            ImgCls: "tree-dept",
+            Open: true,
+            ShowCheckBox: true,
+            Checked: true,
+            ShowImg: true,
+            ChildNodes: [
+                {
+                    Text: "事业部",
+                    ImgCls: "tree-dept",
+                    Open: true,
+                    ShowCheckBox: true,
+                    Checked: true,
+                    ShowImg: true,
+                    ChildNodes: [
+                        {
+                            Text: "国土事业部",
+                            ImgCls: "tree-dept",
+                            ShowCheckBox: true,
+                            Checked: true,
+                            ShowImg: true,
+                        },
+                        {
+                            Text: "通信事业部",
+                            ImgCls: "tree-dept",
+                            ShowCheckBox: true,
+                            Checked: true,
+                            ShowImg: true,
+                        },
+                        {
+                            Text: "市政事业部",
+                            ImgCls: "tree-dept",
+                            ShowCheckBox: true,
+                            Checked: true,
+                            ShowImg: true,
+                        }
+                    ]
+                },
+                {
+                    Text: "研发部",
+                    ImgCls: "tree-dept",
+                    Open: true,
+                    ShowCheckBox: true,
+                    Checked: true,
+                    ShowImg: true,
+                    ChildNodes: [
+                        {
+                            Text: "平台研发",
+                            ImgCls: "tree-dept",
+                            ShowCheckBox: true,
+                            ShowImg: true,
+                        },
+                        {
+                            Text: "基础研发",
+                            ImgCls: "tree-dept",
+                            ShowCheckBox: true,
+                            ShowImg: true,
+                        }
+                    ]
+                }
+            ]
+        };
+    </script>
+</body>
+</html>

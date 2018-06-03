@@ -1,0 +1,81 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.tree ul {
+    list-style: none;
+}
+
+.tree li {
+    padding-left: 25px;
+    line-height: 25px;
+}
+
+.tree-dir, .tree-img, .tree-chk {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-left: 4px;
+    margin-top: 2px;
+}
+
+.tree-chk {
+    cursor: pointer;
+}
+
+.tree-open {
+    /*background-image: url(./minus.png);*/
+    background-image: url(../img/32px.png);
+    background-position: -31px -6px;
+}
+
+.tree-close {
+    /*background-image: url(./tree-close.png);*/
+    background-image: url(../img/32px.png);
+    background-position: 2px -7px;
+}
+
+.tree-chk-none {
+    background-image: url(../img/check-none.png);
+    background-size: 65% 65%;
+}
+
+.tree-chk-part {
+    background-image: url(../img/check-part.png);
+    background-size: 65% 65%;
+}
+
+.tree-chk-all {
+    background-image: url(../img/check-all.png);
+    background-size: 65% 65%;
+}
+
+.tree-dept {
+    background-image: url(../img/dept.png);
+}
+
+.tree-text {
+    margin-left: 5px;
+    height: 20px;
+    line-height: 25px;
+    position: relative;
+    top: -3px;
+    font-size: 14px;
+    cursor:default;
+}
+
+.tree li > div {
+    height: 25px;
+}
+
+    .tree li > div:hover {
+        background-color: #F7E5A7;
+    }
+
+.tree .select-row {
+    background-color: #f4eaca;
+}
