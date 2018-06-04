@@ -65,17 +65,19 @@
     position: relative;
     top: -3px;
     font-size: 14px;
-    cursor:default;
+    cursor: default;
 }
 
 .tree li > div {
     height: 25px;
 }
 
-    .tree li > div:hover {
-        background-color: #F7E5A7;
-    }
+.tree-hover:hover {
+    background-color: #eaf2ff;
+}
 
 .tree .select-row {
-    background-color: #f4eaca;
+    background-color: #F7E5A7;
 }
+
+
