@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>自定义数据格式</title>
+    <link href="../dist/css/tree.css" rel="stylesheet" />
+    <script type="text/javascript" src="../dist/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../dist/js/tree.js"></script>
+</head>
+<body>
+    <h3 style="margin:50px 0 20px 50px;">自定义数据格式</h3>
+    <p style="margin:20px 0 20px 50px;">
+        演示自定义数据格式。
+    </p>
+    <div id="tree" style="margin:50px;"></div>
+    <script type="text/javascript">
+        var tree;
+        $(function () {
+            tree = new Tree("tree", {
+                field_Text: "text",
+                field_Open: "open",
+                field_ImgCls: "iconCls",
+                field_ChildNodes: "children",
+                field_Checked: "checked",
+                field_ShowImg: "showImg",
+                field_ShowCheckBox: "showCheckBox"
+            });
+            $.get("treejson2.json", function (res) {
+                tree.init(res);
+            })
+        });
+    </script>
+</body>
+</html>

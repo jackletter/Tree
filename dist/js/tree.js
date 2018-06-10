@@ -15,13 +15,14 @@
             var li = $("<li></li>").appendTo(ul).data("data", res);
             res.__target = li;
             //只要有ChildNodes属性就认为不是叶子节点
-            var isleaf = res.ChildNodes == undefined;
+            var isleaf = res[this.field_ChildNodes] == undefined;
             var div = $("<div></div>").appendTo(li);
             if (this.hoverRow) {
                 div.addClass("tree-hover");
             }
             div.click(function (evt) {
-                if (evt.target.tagName == "DIV") {
+                if (evt.target.tagName == "DIV" || evt.target.classList.contains("tree-text")) {
+                    //单击div或者文本时认为单击节点
                     if (_this.nodeClickType == "click" && typeof (_this.nodeClick) == "function") {
                         //单击事件时
                         _this.nodeClick.apply(evt.target, [$(this).parent().data("data")]);
@@ -30,10 +31,10 @@
                         if ($(this).parent().children("ul").length == 0) return;
                         if ($(this).children(".tree-dir").hasClass("tree-open")) {
                             $(this).children(".tree-dir").removeClass("tree-open").addClass("tree-close");
-                            $(this).children(".tree-dir").parent().parent().children("ul").hide("fast");
+                            $(this).children(".tree-dir").parent().parent().children("ul").hide(_this.animate ? "fast" : undefined);
                         } else {
                             $(this).children(".tree-dir").removeClass("tree-close").addClass("tree-open");
-                            $(this).children(".tree-dir").parent().parent().children("ul").show("fast");
+                            $(this).children(".tree-dir").parent().parent().children("ul").show(_this.animate ? "fast" : undefined);
                         }
                     } else if (_this.nodeClickType == "check") {
                         //选中状态时
@@ -45,7 +46,7 @@
             if (!isleaf) {
                 //当有子节点时
                 icon_arr = $("<span class='tree-dir'></span>").appendTo(div);
-                if (this.expandAll || (this.expandFirst && deep == 0) || res.Open) {
+                if (this.expandAll || (this.expandFirst && deep == 0) || res[this.field_Open]) {
                     icon_arr.addClass("tree-open");
                 } else {
                     icon_arr.addClass("tree-close");
@@ -53,21 +54,21 @@
                 icon_arr.click(function () {
                     if ($(this).hasClass("tree-open")) {
                         $(this).removeClass("tree-open").addClass("tree-close");
-                        $(this).parent().parent().children("ul").hide("fast");
+                        $(this).parent().parent().children("ul").hide(_this.animate ? "fast" : undefined);
                     } else {
                         $(this).removeClass("tree-close").addClass("tree-open");
-                        $(this).parent().parent().children("ul").show("fast");
+                        $(this).parent().parent().children("ul").show(_this.animate ? "fast" : undefined);
                     }
                 });
             } else {
                 icon_arr = $("<span class='tree-dir'></span>").appendTo(div);
             }
-            if (this.forceChk == 1 || (this.forceChk == 0 && res.ShowCheckBox)) {
+            if (this.forceChk == 1 || (this.forceChk == 0 && res[this.field_ShowCheckBox])) {
                 //强制显示复选框或由数据指定
                 icon_chk = $("<span class='tree-chk'></span>").appendTo(div);
                 if (this.checkOnlyLeaf) {
                     if (isleaf) {
-                        if (res.Checked) {
+                        if (res[this.field_Checked]) {
                             icon_chk.addClass("tree-chk-all");
                             if (this.selectRow) {
                                 div.addClass("select-row");
@@ -77,7 +78,7 @@
                         }
                     }
                 } else {
-                    if (res.Checked) {
+                    if (res[this.field_Checked]) {
                         icon_chk.addClass("tree-chk-all");
                         if (this.selectRow) {
                             div.addClass("select-row");
@@ -90,40 +91,30 @@
                     _this.checkNode.apply(this);
                 });
             }
-            if (this.forceImg == 1 || (this.forceImg == 0 && res.ShowImg)) {
+            if (this.forceImg == 1 || (this.forceImg == 0 && res[this.field_ShowImg])) {
                 //强制显示图片或由数据指定
                 icon_img = $("<span class='tree-img'></span>").appendTo(div);
-                if (res.ImgCls) {
-                    icon_img.addClass(res.ImgCls);
+                if (res[this.field_ImgCls]) {
+                    icon_img.addClass(res[this.field_ImgCls]);
                 } else {
                     icon_img.addClass(this.defaultImg);
                 }
             }
             var nodeText = $("<span class='tree-text'></span>").appendTo(div);
-            nodeText.html(res.Text);
-            if (res.ChildNodes && res.ChildNodes.length > 0) {
+            nodeText.html(res[this.field_Text]);
+            if (res[this.field_ChildNodes] && res[this.field_ChildNodes].length > 0) {
                 //生成子节点
                 var ul2 = $("<ul></ul>").appendTo(li);
-                if (this.expandAll || (this.expandFirst && deep == 0) || res.Open) {
+                if (this.expandAll || (this.expandFirst && deep == 0) || res[this.field_Open]) {
 
                 } else {
                     ul2.hide();
                 }
                 deep++;
-                for (var i = 0; i < res.ChildNodes.length; i++) {
-                    this._createNodes(res.ChildNodes[i], ul2, deep);
+                for (var i = 0; i < res[this.field_ChildNodes].length; i++) {
+                    this._createNodes(res[this.field_ChildNodes][i], ul2, deep);
                 }
                 deep--;
-                //处理子节点的复选框
-                if (this.forceChk == 1 || (this.forceChk == 0 && res.ShowCheckBox)) {
-                    //todo 
-                    //强制显示复选框或由数据指定
-                    if (res.Checked) {
-                        if (this.casecadeSelect) {
-                            div.find(".tree-chk").attr("class", "tree-chk tree-chk-all");
-                        }
-                    }
-                }
             }
         }
         this._dealCheckState = function (li) {
@@ -147,6 +138,8 @@
             }
         }
         this.checkNode = function (checked, right) {
+            //checked:当前节点是否选中
+            //right:为true表示向右级联子节点,为undefined表示父节点也要处理
             //是否要设置为选中
             if (checked == undefined) {
                 checked = !($(this).hasClass("tree-chk-all") || $(this).hasClass("tree-chk-part"));
@@ -306,19 +299,44 @@
                 }
             }
         }
-        this.expand2Checked = function (forceDeep, showUnCheck) {
+        this.expand2Checked = function (showUnCheck) {
             //展开到选中的节点,强制展开到的深度,是否显示不被选中的
-
-
+            var li = this.target.find(">ul>li");
+            this._expand2Checked(li, showUnCheck);
+        }
+        this._expand2Checked = function (li, showUnCheck) {
+            var count = 0;
+            var lis = li.find(">ul>li");
+            if (lis.length > 0) {
+                for (var i = 0; i < lis.length; i++) {
+                    count += this._expand2Checked(lis.eq(i), showUnCheck);
+                }
+                if (count > 0) {
+                    li.find(">ul").show().end().find(">div>.tree-close").attr("class", "tree-dir tree-open");
+                } else {
+                    if (!showUnCheck) {
+                        li.find(">ul").hide();
+                    }
+                }
+            }
+            count += li.find(">div>.tree-chk-all,>div>.tree-chk-part").length;
+            if (count == 0) {
+                if (showUnCheck) {
+                    li.show().find(">ul").hide().end().find(">div>.tree-open").attr("class", "tree-dir tree-close");
+                } else {
+                    li.hide();
+                }
+            }
+            return count;
         }
     }
     Tree.prototype.settins = {
         forceImg: 0,//是否强制显示图片,优先级最高,0-无操作,1-强制显示所有,2-强制关闭所有
         forceChk: 0,//是否强制显示复选框,优先级最高,0-无操作,1-强制显示所有,2-强制关闭所有
         defaultImg: "tree-dept",//默认的图片
-        checkOnlyLeaf: true,//复选框的是否只选中叶子节点
+        checkOnlyLeaf: false,//复选框的是否只选中叶子节点
         expandAll: false,//是否展开所有的节点
-        expandFirst: true,//是否展开第一级节点
+        expandFirst: false,//是否展开第一级节点
         expandSelected: true,//是否展开所有选中的节点
         selectRow: true,//是否对选中的节点行上色
         hoverRow: true,//是否在鼠标悬停到节点时高亮显示
@@ -326,7 +344,15 @@
         nodeClick: function () { },//单击文本的点击事件,当textClickType的值为"click"时有效
         beforeCheck: function () { },//选中节点前触发
         beforeUnCheck: function () { },//取消选中节点前触发
-        afterCheck: function () { }//选中节点或取消训中节点后触发
+        afterCheck: function () { },//选中节点或取消训中节点后触发
+        animate: false,//在节点展开或收缩时是否显示动画效果,默认不显示
+        field_Text: "Text",
+        field_Open: "Open",
+        field_ImgCls: "ImgCls",
+        field_ChildNodes: "ChildNodes",
+        field_Checked: "Checked",
+        field_ShowImg: "ShowImg",
+        field_ShowCheckBox: "ShowCheckBox"
     };
 })(window, jQuery);
 
@@ -334,5 +360,12 @@
 checkOnlyLeaf:复选框的选择模式
     为true:表示只关注叶子节点的选中状态,非叶子节点将有三种状态(不选中,选中部分,选中全部),在获取选中的节点时也只会获取叶子节点
     为false:表示叶子节点和非叶子节点互不影响
+
+*/
+/**
+后端数据格式:
+Text:节点显示名称
+Open:节点是否打开,默认false,注意:只有包含子节点时才有效
+
 
 */

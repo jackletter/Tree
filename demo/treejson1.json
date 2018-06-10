@@ -1,0 +1,47 @@
+﻿{
+  "Text": "某公司",
+  "Open": true,
+  "ShowImg": true,
+  "ChildNodes": [
+    {
+      "Text": "事业部",
+      "Open": true,
+      "ShowImg": true,
+      "ChildNodes": [
+        {
+          "Text": "国土事业部",
+          "Checked": false,
+          "ShowImg": true
+        },
+        {
+          "Text": "通信事业部",
+          "ImgCls": "tree-dept",
+          "ShowImg": true
+        },
+        {
+          "Text": "市政事业部",
+          "ImgCls": "tree-dept",
+          "ShowImg": true
+        }
+      ]
+    },
+    {
+      "Text": "研发部",
+      "ImgCls": "tree-dept",
+      "Open": true,
+      "ShowImg": true,
+      "ChildNodes": [
+        {
+          "Text": "平台研发",
+          "ImgCls": "tree-dept",
+          "ShowImg": true
+        },
+        {
+          "Text": "基础研发",
+          "ImgCls": "tree-dept",
+          "ShowImg": true
+        }
+      ]
+    }
+  ]
+}

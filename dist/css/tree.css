@@ -57,6 +57,9 @@
 .tree-dept {
     background-image: url(../img/dept.png);
 }
+.tree-user {
+    background-image: url(../img/user.png);
+}
 
 .tree-text {
     margin-left: 5px;
@@ -65,11 +68,11 @@
     position: relative;
     top: -3px;
     font-size: 14px;
-    cursor: default;
 }
 
 .tree li > div {
     height: 25px;
+    cursor:pointer;
 }
 
 .tree-hover:hover {

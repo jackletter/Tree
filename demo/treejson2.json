@@ -1,0 +1,49 @@
+﻿{
+  "text": "My Documents",
+  "open": true,
+  "children": [
+    {
+      "text": "Photos",
+      "open": "closed",
+      "children": [
+        {
+          "text": "Friend"
+        },
+        {
+          "text": "Wife"
+        },
+        {
+          "text": "Company"
+        }
+      ]
+    },
+    {
+      "text": "Program Files",
+      "open": false,
+      "children": [
+        {
+          "text": "Intel"
+        },
+        {
+          "text": "Java"
+        },
+        {
+          "text": "Microsoft Office"
+        },
+        {
+          "text": "Games",
+          "checked": true
+        }
+      ]
+    },
+    {
+      "text": "index.html"
+    },
+    {
+      "text": "about.html"
+    },
+    {
+      "text": "welcome.html"
+    }
+  ]
+}
